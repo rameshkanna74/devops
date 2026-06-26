@@ -1,41 +1,39 @@
 services:
-
   db:
     image: postgres:17
     container_name: postgres_db
-
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydb
-
-    ports:
-      - "5432:5432"
-
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
 
   backend:
     build: ./backend
-
     container_name: fastapi_backend
-
+    env_file:
+      - .env
     ports:
       - "8000:8000"
-
     depends_on:
       - db
+    networks:
+      - app_network
 
   frontend:
     build: ./frontend
-
     container_name: react_frontend
-
     ports:
       - "5173:5173"
-
     depends_on:
       - backend
+    networks:
+      - app_network
 
 volumes:
   postgres_data:
+
+networks:
+  app_network:
+    driver: bridge

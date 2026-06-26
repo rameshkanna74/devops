@@ -20,7 +20,7 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {"message": "FastAPI Running"}
+    return {"message": "FastAPI Updated"}
 
 
 @app.get("/db-check")
